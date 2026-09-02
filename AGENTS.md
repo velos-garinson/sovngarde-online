@@ -163,7 +163,8 @@ missing. Postgres and Better Auth are pre-wired in `src/lib`, **opt-in per app**
   looping on failed installs, and prefer a pure-JS alternative. Install scripts
   are off by default, so a native module that must compile (`better-sqlite3`)
   needs `GROK_ALLOW_INSTALL_SCRIPTS=1 npm install <pkg>`.
-- **The app is deployed to Vercel**, where these fail though locally they don't:
+- **The app is deployed to Netlify** (`netlify.toml` + the nitro `netlify`
+  preset), where these fail though locally they don't:
   runtime filesystem writes, server-only Node APIs at import time, dev-only deps,
   hard-coded hosts/ports/secrets (`.grok/references/deploy-target.md`).
 - **Never create a `.env` file** — the platform injects `DATABASE_URL` + auth

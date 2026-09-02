@@ -76,7 +76,11 @@ flag (exit 0 agree, 1 diverged, 2 could not observe).
 ## Env
 
 On deploy the platform injects `DATABASE_URL` + per-app auth creds; live preview
-needs neither (baked preview client, PGLite fallback). Deployed behind the gate,
+needs neither (baked preview client, PGLite fallback). On Netlify, connecting
+the site's Netlify Database supplies `NETLIFY_DATABASE_URL` instead, which
+`scripts/database-url.mjs` resolves for the app, Better Auth and the deploy-time
+migrator alike — without it the deployed app runs on the ephemeral in-memory
+PGLite fallback. Deployed behind the gate,
 signed-in Grok viewers get the app session automatically from `x-grok-identity`
 (see the `auth` skill — `references/grok-identity.md`); the broker federation
 covers anonymous viewers and no-gate contexts.

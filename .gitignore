@@ -1,0 +1,17 @@
+node_modules/
+
+# Build output
+dist/
+.vercel/
+.netlify/functions-internal/
+.netlify/edge-functions/
+.netlify/deploy/
+.netlify/state.json
+.nitro/
+.output/
+
+# Local dev / QA scratch
+.grok/preview.pid
+.grok/preview.log
+.grok/og-pending
+*.log

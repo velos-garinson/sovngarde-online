@@ -1,8 +1,8 @@
 # Build & deploy target
 
 You never trigger the deploy yourself, **but the app you build is eventually
-deployed to Vercel** by the platform — so your output must build cleanly under
-Vercel's process. `npm run build` must succeed and emit valid output, and code
+deployed to Netlify** by the platform — so your output must build cleanly under
+Netlify's process. `npm run build` must succeed and emit valid output, and code
 that works under `npm run dev` but breaks a production / SSR build is a bug.
 Watch for dev-only deps, server-only Node APIs run at import time, runtime
 filesystem writes, and hard-coded ports / hosts / secrets.
@@ -29,7 +29,8 @@ config:
 - binds the dev port `0.0.0.0:8080`;
 - pins `vite preview` to loopback `127.0.0.1:8081`, so the built output can
   never be picked up as the user's live preview;
-- gates `nitro({ preset: "vercel" })` on `command === "build" || isPreview`, so
+- gates `nitro({ preset: process.env.NITRO_PRESET || "netlify" })` on
+  `command === "build" || isPreview`, so
   it never runs in dev — left on in dev, nitro opens a second dev-server port,
   which breaks the single-port 8080 live preview — but still serves the built
   output under `vite preview`;
@@ -38,3 +39,13 @@ config:
 If you edit it, preserve both port contracts, the build/preview-gated nitro
 plugin **including its `serverDir: "./server"` option** (without it the deployed
 app loses the Home Screen install page), and `grokPwaPlugin()`.
+
+## Netlify output layout (do not hardcode a publish directory)
+
+The `netlify` preset writes static assets — plus the `_headers` / `_redirects`
+it generates — to `dist/`, and the SSR handler to
+`.netlify/functions-internal/server/`, which Netlify picks up automatically as
+a framework-generated function. `netlify.toml` pins `publish = "dist"` and
+overrides any publish directory set in the Netlify UI; keep the two in sync if
+you ever change the preset. A publish directory of `dist/client` is wrong for
+this preset and fails the deploy with "Deploy directory does not exist".
