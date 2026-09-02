@@ -1,0 +1,231 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme {
+  --color-background: #0c0c0b;
+  --color-foreground: #ece8e1;
+  --color-card: #141412;
+  --color-elevated: #1c1b18;
+  --color-muted: #1c1b18;
+  --color-muted-foreground: #9a958c;
+  --color-subtle: #6f6b64;
+  --color-accent: #d4d0c8;
+  --color-accent-foreground: #0c0c0b;
+  --color-border: #2a2926;
+  --color-ring: #d4d0c8;
+  --color-destructive: #c45c3e;
+  --color-pyro: #c45c3e;
+  --color-resto: #6a8f78;
+  --color-necro: #7d8796;
+  --color-cryo: #7a93a8;
+  --color-warn: #b08968;
+
+  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --duration-quick: 150ms;
+  --duration-fast: 250ms;
+  --duration-slow: 400ms;
+  --duration-emphasis: 500ms;
+  --motion-scale-modal: 0.96;
+  --motion-blur-md: 3px;
+}
+
+:root {
+  --shadow-border: 0 0 0 1px rgba(236, 232, 225, 0.08);
+  --shadow-border-hover: 0 0 0 1px rgba(236, 232, 225, 0.14);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--color-background);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  input[type="date"] {
+    color-scheme: dark;
+  }
+}
+
+@utility press-in {
+  &:active:not(:disabled) {
+    scale: 0.96;
+  }
+}
+
+@utility rows-collapse {
+  grid-template-rows: 0fr;
+}
+
+@utility rows-expand {
+  grid-template-rows: 1fr;
+}
+
+@utility icon-swap-hidden {
+  scale: 0.25;
+  opacity: 0;
+  filter: blur(4px);
+}
+
+@utility icon-swap-shown {
+  scale: 1;
+  opacity: 1;
+  filter: blur(0);
+}
+
+.advance-cue {
+  box-shadow: 0 0 0 1px var(--color-warn);
+}
+
+.landing-veil {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-background);
+  background-image:
+    radial-gradient(
+      ellipse 70% 60% at 50% 50%,
+      rgb(12 12 11 / 0.78) 0%,
+      rgb(12 12 11 / 0.62) 48%,
+      var(--color-background) 100%
+    ),
+    url("/landing-veil.jpg");
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+  transform-origin: 50% 48%;
+}
+
+.landing-portal {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transform-origin: 50% 48%;
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    circle at 50% 48%,
+    rgb(236 232 225 / 0.28) 0%,
+    rgb(236 232 225 / 0.08) 26%,
+    transparent 54%
+  );
+}
+
+.landing-panel {
+  transform-origin: 50% 46%;
+}
+
+.landing-warp {
+  animation: portal-pull var(--duration-emphasis) var(--ease-smooth-out) forwards;
+}
+
+.landing-warp .landing-veil {
+  animation: portal-zoom var(--duration-emphasis) var(--ease-smooth-out) forwards;
+}
+
+.landing-warp .landing-portal {
+  animation: portal-flare var(--duration-emphasis) var(--ease-smooth-out) forwards;
+}
+
+.landing-warp .landing-panel {
+  animation: portal-draw var(--duration-emphasis) var(--ease-smooth-out) forwards;
+}
+
+@keyframes portal-pull {
+  0% {
+    opacity: 1;
+  }
+  72% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes portal-zoom {
+  to {
+    transform: scale(1.28);
+    filter: brightness(1.12);
+  }
+}
+
+@keyframes portal-flare {
+  0% {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+  38% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 0.18;
+    transform: scale(1.42);
+  }
+}
+
+@keyframes portal-draw {
+  to {
+    opacity: 0;
+    transform: scale(0.86) translateY(8px);
+    filter: blur(var(--motion-blur-md));
+  }
+}
+
+.app-arrive {
+  animation: app-arrive var(--duration-slow) var(--ease-smooth-out);
+}
+
+@keyframes app-arrive {
+  from {
+    opacity: 0;
+    transform: scale(var(--motion-scale-modal));
+    filter: blur(var(--motion-blur-md));
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rows-collapse,
+  .rows-expand,
+  .landing-warp,
+  .landing-warp .landing-veil,
+  .landing-warp .landing-portal,
+  .landing-warp .landing-panel,
+  .app-arrive {
+    animation: none;
+    transition: none;
+    filter: none;
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "url": "http://127.0.0.1:8081/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Sovngarde Collegium, Keizaal Online",
+      "hasCanvas": false,
+      "bodyTextLen": 43,
+      "bodyTextHash": "e6d351dd54c43dcdaf090fa0726e2f1912e3bfed3968f6df09d90af2a352f4c4",
+      "bodyTextPrefix": "Sovngarde Collegium Keizaal Online PIN Open",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Sovngarde Collegium, Keizaal Online",
+      "hasCanvas": false,
+      "bodyTextLen": 43,
+      "bodyTextHash": "e6d351dd54c43dcdaf090fa0726e2f1912e3bfed3968f6df09d90af2a352f4c4",
+      "bodyTextPrefix": "Sovngarde Collegium Keizaal Online PIN Open",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-built.json",
+  "divergesFromBaseline": false,
+  "baselineReasons": []
+}
