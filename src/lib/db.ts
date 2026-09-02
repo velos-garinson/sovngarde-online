@@ -1,20 +1,26 @@
+import { resolveDatabaseUrl } from "../../scripts/database-url.mjs";
 import { pendingMigrations } from "../../scripts/migration-plan.mjs";
 
 /** Which database backend is active. */
 export type DbSource = "neon" | "pglite";
 
-// An empty/whitespace DATABASE_URL (an easy misconfig in deploy UIs) must mean
-// "unset" — otherwise production would silently run on the PGLite fallback.
-const rawDatabaseUrl =
-  typeof process !== "undefined" ? process.env.DATABASE_URL : undefined;
+// `DATABASE_URL`, or the `NETLIFY_DATABASE_URL` that Netlify Database injects
+// once the site's managed Postgres is connected. Blank values count as unset —
+// see scripts/database-url.mjs.
 const databaseUrl =
-  rawDatabaseUrl && rawDatabaseUrl.trim() ? rawDatabaseUrl : undefined;
+  typeof process !== "undefined" ? resolveDatabaseUrl(process.env) : undefined;
 
 /**
- * Active backend: real **Neon** when `DATABASE_URL` is set (deployed / configured
- * sandbox), otherwise a local embedded **PGLite** (Postgres compiled to WASM) so
- * the app has a working database even with nothing configured — the live preview
- * included. Swap in Neon later by just setting `DATABASE_URL`; no code changes.
+ * Active backend: real managed **Postgres** when a connection URL is resolved
+ * (deployed / configured sandbox), otherwise a local embedded **PGLite**
+ * (Postgres compiled to WASM) so the app has a working database even with
+ * nothing configured — the live preview included. Point it at real Postgres by
+ * setting `DATABASE_URL`, or by connecting the site's Netlify Database (which
+ * injects `NETLIFY_DATABASE_URL`); no code changes either way.
+ *
+ * NOTE: the PGLite fallback is in-memory and per-process, so on a deployed
+ * serverless function it is scratch space, not storage — data does not outlive
+ * the instance. Durable data needs a connection URL.
  */
 export const dbSource: DbSource = databaseUrl ? "neon" : "pglite";
 

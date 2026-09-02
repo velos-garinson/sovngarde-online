@@ -1,0 +1,15 @@
+# Netlify build contract for this TanStack Start + Nitro app.
+#
+# `netlify.toml` wins over the site's UI build settings, so the publish
+# directory lives here next to the Nitro preset that produces it. The Nitro
+# `netlify` preset writes static assets (plus `_headers` / `_redirects`) to
+# `dist/`, and the SSR handler to `.netlify/functions-internal/server/`, which
+# Netlify picks up automatically as a framework-generated function.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # vite.config.ts already defaults to this preset; setting it here keeps the
+  # deploy target explicit and overridable per-context from the Netlify UI.
+  NITRO_PRESET = "netlify"
