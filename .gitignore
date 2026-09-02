@@ -3,12 +3,23 @@ node_modules/
 # Build output
 dist/
 .vercel/
-.netlify/functions-internal/
-.netlify/edge-functions/
-.netlify/deploy/
-.netlify/state.json
 .nitro/
 .output/
+
+# Everything Netlify generates in .netlify/ is build output or per-run state:
+# the bundled function zip, the platform's internal copy of the migrations it
+# applies, its resolved config, and one runner-context file per run. Listing
+# them individually missed most of them and left the commit step staging a
+# 755K binary and a file that grows by one every run, so ignore the directory
+# wholesale. `.netlify/*` rather than `.netlify/` so git still descends into it
+# and the negation below can take effect.
+.netlify/*
+# ...except the run summary, which is a deliverable rather than build output.
+!.netlify/results.md
+
+# Private, machine-local instructions — AGENTS.md documents this as not
+# checked in, so it must never be picked up by the automatic commit.
+CLAUDE.local.md
 
 # Local dev / QA scratch
 .grok/preview.pid
